@@ -42,7 +42,7 @@ echo '<br />echo do php puro<br />';
     @isset($fornecedores[1] ['cnpj'])
     CNPJ: {{$fornecedores[1] ['cnpj']}}
     @empty($fornecedores[1] ['cnpj'])
-        -Vazio
+        -Vazioo
     @endempty
     @endisset
 @endisset
