@@ -1,6 +1,8 @@
 <h1>Fornecedor</h1>
 
 {{-- comment test --}}
+{{-- ?? 'texto default'--}}
+{{-- @ escapa o caracter e não faz a interpretação--}}
 
 {{ 'txt de teste - blade' }}
 <br />
@@ -27,15 +29,21 @@ echo '<br />echo do php puro<br />';
 <br>
 
 @isset($fornecedores)
-    Fornecedor: {{$fornecedores[0] ['nome']}}
-    <br>
-    Status: {{$fornecedores[0] ['status']}}
-    <br>
-    CNPJ: {{$fornecedores[0] ['cnpj']}}
+{{-- @for($i = 0; isset($fornecedores[$i]); $i++) --}}
+{{-- @foreach ($fornecedores as $indice => $fornecedor) --}}
 
-    <hr>
+        Fornecedor: {{$fornecedor['nome']}}
+        <br>
+        Status: {{$fornecedor['status']}}
+        <br>
+        CNPJ: {{$fornecedor['cnpj'] ?? 'Dados não preenchidos'}} {{-- ?? 'texto default'--}}
 
-    Fornecedor: {{$fornecedores[1] ['nome']}}
+<hr>
+{{-- @endforeach --}}
+{{-- @endfor --}}
+
+
+    {{-- Fornecedor: {{$fornecedores[1] ['nome']}}
     <br>
     Status: {{$fornecedores[1] ['status']}}
     <br>
@@ -44,7 +52,7 @@ echo '<br />echo do php puro<br />';
     @empty($fornecedores[1] ['cnpj'])
         -Vazioo
     @endempty
-    @endisset
+    @endisset --}}
 @endisset
 
 {{-- @unless  retorna se a condicao for false @endunless --}}
