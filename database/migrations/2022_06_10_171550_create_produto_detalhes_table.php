@@ -15,11 +15,11 @@ return new class extends Migration
     {
         Schema::create('produto_detalhes', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
             $table->unsignedBigInteger('produto_id');
             $table->float('comprimento', 8, 2); //max 8 dig , 2 casas apos a virgula;
             $table->float('largura', 8, 2);
             $table->float('altura', 8, 2);
+            $table->timestamps();
 
             //constraint
             $table->foreign('produto_id')->references('id')->on('produtos');
