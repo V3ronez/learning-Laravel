@@ -32,11 +32,11 @@ echo '<br />echo do php puro<br />';
 {{-- @for($i = 0; isset($fornecedores[$i]); $i++) --}}
 {{-- @foreach ($fornecedores as $indice => $fornecedor) --}}
 
-        Fornecedor: {{$fornecedor['nome']}}
+        Fornecedor: {{$fornecedores['nome']}}
         <br>
-        Status: {{$fornecedor['status']}}
+        Status: {{$fornecedores['status']}}
         <br>
-        CNPJ: {{$fornecedor['cnpj'] ?? 'Dados não preenchidos'}} {{-- ?? 'texto default'--}}
+        CNPJ: {{$fornecedores['cnpj'] ?? 'Dados não preenchidos'}} {{-- ?? 'texto default'--}}
 
 <hr>
 {{-- @endforeach --}}
