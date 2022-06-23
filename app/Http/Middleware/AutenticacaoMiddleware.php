@@ -16,15 +16,39 @@ class AutenticacaoMiddleware
      */
     public function handle(Request $request, Closure $next, $metodo_autenticao, $perfil)
     {
-        if ($metodo_autenticao == 'padrao') {
-            echo("Buscar os dados no banco </br>");
+        session_start();
+        if (isset($_SESSION['email']) && $_SESSION['email'] != '') {
+            return $next($request);
         }
-        if (!$perfil == 'visitante') {
-            echo 'mostrar tudo que tem no site' . '<br>';
+        else {
+            return redirect()->route('site.login', ['erro' => 2]);
         }
-        echo 'mostrar apenas algumas coisas do site' . '<br>';
 
-        // return $next($request);
-        return Response('Acesso Negado, rota precisa de autenticação!!!');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // if ($metodo_autenticao == 'padrao') {
+    //     echo("Buscar os dados no banco </br>");
+    // }
+    // if (!$perfil == 'visitante') {
+    //     echo 'mostrar tudo que tem no site' . '<br>';
+    // }
+    // echo 'mostrar apenas algumas coisas do site' . '<br>';
+
+    // // return $next($request);
+    // return Response('Acesso Negado, rota precisa de autenticação!!!');
     }
 }

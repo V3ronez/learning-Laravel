@@ -13,6 +13,7 @@
             <div style="width:40%; margin-left:auto; margin-right:auto;">
                 <form action={{ route('site.login') }} method="POST">
                     @csrf
+                    {{ isset($erro) && $erro != '' ? $erro : '' }}
                     <input name="usuario" value="{{ old('usuario') }}" type="text" placeholder="Usuário"
                         class="borda-preta">
                     {{ $errors->has('usuario') ? $errors->first('usuario') : '' }}

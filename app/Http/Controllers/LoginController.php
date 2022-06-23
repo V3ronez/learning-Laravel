@@ -8,9 +8,17 @@ use \App\Models\User;
 
 class LoginController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return view('site.login', ['titulo' => 'Login']);
+        $erro = '';
+        if($request->get('erro')== 1) {
+            $erro = 'Usuário e/ou Senha inválido';
+        }
+
+        if($request->get('erro')== 2) {
+            $erro = 'Necessário fazer login';
+        }
+        return view('site.login', ['titulo' => 'Login', 'erro' => $erro]);
     }
     public function autenticar(Request $request)
     {
@@ -26,6 +34,7 @@ class LoginController extends Controller
             'senha.required' => 'O campo senha deve ser informado'
         ];
 
+        //validando
         $request->validate($regras, $errorMsg);
 
         //recebendo os valores do login
@@ -37,12 +46,21 @@ class LoginController extends Controller
         $usuario = $user->where('email', $email)->where('password', $password)->get()->first();
 
 
+
         if(isset($usuario->name)) {
-            echo('Usuário existe');
+            session_start();
+
+            $_SESSION['nome'] = $usuario->name;
+            $_SESSION['email'] = $usuario->email;
+
+            return redirect()->route('app.home');
         }else {
-            echo 'Usuário não existe';
+            return redirect()-> route('site.login', ['erro' => 1]);
         }
 
-        //validando
+    }
+    public function sair() {
+        session_destroy();
+        return redirect()->route('site.index');
     }
 }

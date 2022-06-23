@@ -14,8 +14,8 @@ Route::get('/contato', [\App\Http\Controllers\ContatoController::class , 'contat
 Route::post('/contato', [\App\Http\Controllers\ContatoController::class , 'salvar'])->name('site.contato');
 
 Route::get('/sobre-nos', [\App\Http\Controllers\SobreNosController::class , 'sobreNos'])->name('site.sobrenos');
-Route::get('/login', [\App\Http\Controllers\LoginController::class, 'index'])->name('site.login');
-Route::post('/login', [\App\Http\Controllers\LoginController::class, 'autenticar'])->name('site.login');
+Route::get('/login/{erro?}', [\App\Http\Controllers\LoginController::class , 'index'])->name('site.login');
+Route::post('/login', [\App\Http\Controllers\LoginController::class , 'autenticar'])->name('site.login');
 // Route::get('/contato/{nome}/{categoria_id}', function (string $nome, int $categoria_id = 1) {
 //     echo "ola $nome, a categoria desejada é - $categoria_id";
 // })->where('categoria_id', '[0-9]+')->where('nome', '[\W]+');
@@ -23,17 +23,12 @@ Route::post('/login', [\App\Http\Controllers\LoginController::class, 'autenticar
 
 //app
 Route::middleware('autenticacao:padrao, visitante')->prefix('app')->group(function () {
-    Route::get('/clientes', function () {
-            return 'Clientes';
-        }
-        )
-            ->name('app.clientes');
-        Route::get('/fornecedores', [\App\Http\Controllers\FornecedorController::class , 'index'])->name('app.fornecedores');
-        Route::get('/produtos', function () {
-            return 'Produtos';
-        }
-        )->name('app.produtos');
-    });
+    Route::get('/home', [\App\Http\Controllers\HomeController::class , 'index'])->name('app.home');
+    Route::get('/sair', [\App\Http\Controllers\LoginController::class , 'sair'])->name('app.sair');
+    Route::get('/clientes', [\App\Http\Controllers\ClienteController::class , 'index'])->name('app.cliente');
+    Route::get('/fornecedores', [\App\Http\Controllers\FornecedorController::class , 'index'])->name('app.fornecedor');
+    Route::get('/produtos', [\App\Http\Controllers\ProdutoController::class , 'index'])->name('app.produto');
+});
 
 // redirect
 
