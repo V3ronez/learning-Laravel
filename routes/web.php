@@ -25,8 +25,14 @@ Route::post('/login', [\App\Http\Controllers\LoginController::class , 'autentica
 Route::middleware('autenticacao:padrao, visitante')->prefix('app')->group(function () {
     Route::get('/home', [\App\Http\Controllers\HomeController::class , 'index'])->name('app.home');
     Route::get('/sair', [\App\Http\Controllers\LoginController::class , 'sair'])->name('app.sair');
-    Route::get('/clientes', [\App\Http\Controllers\ClienteController::class , 'index'])->name('app.cliente');
-    Route::get('/fornecedores', [\App\Http\Controllers\FornecedorController::class , 'index'])->name('app.fornecedor');
+    Route::get('/cliente', [\App\Http\Controllers\ClienteController::class , 'index'])->name('app.cliente');
+
+    Route::get('/fornecedor', [\App\Http\Controllers\FornecedorController::class , 'index'])->name('app.fornecedor');
+    Route::post('/fornecedor/listar', [\App\Http\Controllers\FornecedorController::class , 'listar'])->name('app.fornecedor.listar');
+    Route::get('/fornecedor/adicionar', [\App\Http\Controllers\FornecedorController::class , 'adicionar'])->name('app.fornecedor.adicionar');
+    Route::post('/fornecedor/adicionar', [\App\Http\Controllers\FornecedorController::class , 'adicionar'])->name('app.fornecedor.adicionar');
+    Route::get('/fornecedor/editar/{id}/{msgSucess?}', [\App\Http\Controllers\FornecedorController::class , 'editar'])->name('app.fornecedor.editar');
+
     Route::get('/produtos', [\App\Http\Controllers\ProdutoController::class , 'index'])->name('app.produto');
 });
 

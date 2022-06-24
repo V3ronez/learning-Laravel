@@ -9,7 +9,7 @@ class Fornecedor extends Model
 {
     use HasFactory;
     protected $table = 'fornecedores'; //corrige o nome da table que por padrao tem apenas o 's' inserido;
-    protected $fillable = ['name', 'site', 'uf', 'email']; //autoriza o uso do ::create no tinker;
+    protected $fillable = ['nome', 'site', 'uf', 'email']; //autoriza o uso do ::create no tinker;
 
 
 }

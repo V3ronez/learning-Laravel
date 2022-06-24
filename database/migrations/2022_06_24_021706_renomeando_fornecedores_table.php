@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('fornecedores', function (Blueprint $table) {
-            $table->string('site', 50)->after('nome')->nullable();
+            $table->renameColumn('name', 'nome');
         });
     }
 
@@ -24,9 +24,8 @@ return new class extends Migration
      * @return void
      */
     public function down()
-    {
-        Schema::table('fornecedores', function (Blueprint $table) {
-            $table->dropColumn('site');
-        });
+    {Schema::table('fornecedores', function (Blueprint $table) {
+        $table->renameColumn('nome', 'name');
+    });
     }
 };
