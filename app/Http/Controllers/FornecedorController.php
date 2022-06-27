@@ -46,12 +46,11 @@ class FornecedorController extends Controller
             $fornecedor = Fornecedor::find($request->input('id'));
             $update = $fornecedor->update($request->all());
 
-            if ($update) {
-                $msgSucess = 'Atualização feita com sucesso';
-            }
-            else {
+            if (!$update) {
                 $msgSucess = 'Erro ao atualizar, tente novamente em alguns segundo.';
             }
+
+            $msgSucess = 'Atualização feita com sucesso';
 
             return redirect()->route('app.fornecedor.editar', ['id' => $request->input('id'), 'msgSucess' => $msgSucess]);
         }
@@ -64,12 +63,20 @@ class FornecedorController extends Controller
         $fornecedores = Fornecedor::where('nome', 'like', '%' . $request->input('nome'))
             ->where('site', 'like', '%' . $request->input('site'))
             ->where('uf', 'like', '%' . $request->input('uf'))
-            ->where('email', 'like', '%' . $request->input('email'))->get();
-        return view('app.fornecedor.listar', ['fornecedores' => $fornecedores]);
+            ->where('email', 'like', '%' . $request->input('email'))
+            ->paginate(2);
+        return view('app.fornecedor.listar', ['fornecedores' => $fornecedores, 'request' => $request->all()]);
     }
     public function editar($id, $msgSucess = '')
     {
         $fornecedor = Fornecedor::find($id);
         return view('app.fornecedor.adicionar', ['fornecedor' => $fornecedor, 'msgSucess' => $msgSucess]);
+    }
+    public function excluir($id)
+    {
+        Fornecedor::find($id)->delete();
+        // Fornecedor::find($id)->forceDelete(); // forca o delete quando o softdelete é utilizado
+
+        return redirect()->route('app.fornecedor');
     }
 }

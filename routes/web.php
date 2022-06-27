@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\LogAcessoMiddleware;
+use \App\Http\Controllers\ProdutoController;
 
 /* |-------------------------------------------------------------------------- | Web Routes |-------------------------------------------------------------------------- | | Here is where you can register web routes for your application. These | routes are loaded by the RouteServiceProvider within a group which | contains the "web" middleware group. Now create something great! | */
 
@@ -27,13 +28,17 @@ Route::middleware('autenticacao:padrao, visitante')->prefix('app')->group(functi
     Route::get('/sair', [\App\Http\Controllers\LoginController::class , 'sair'])->name('app.sair');
     Route::get('/cliente', [\App\Http\Controllers\ClienteController::class , 'index'])->name('app.cliente');
 
+    //fornecedor
+
     Route::get('/fornecedor', [\App\Http\Controllers\FornecedorController::class , 'index'])->name('app.fornecedor');
+    Route::get('/fornecedor/listar', [\App\Http\Controllers\FornecedorController::class , 'listar'])->name('app.fornecedor.listar');
     Route::post('/fornecedor/listar', [\App\Http\Controllers\FornecedorController::class , 'listar'])->name('app.fornecedor.listar');
     Route::get('/fornecedor/adicionar', [\App\Http\Controllers\FornecedorController::class , 'adicionar'])->name('app.fornecedor.adicionar');
     Route::post('/fornecedor/adicionar', [\App\Http\Controllers\FornecedorController::class , 'adicionar'])->name('app.fornecedor.adicionar');
     Route::get('/fornecedor/editar/{id}/{msgSucess?}', [\App\Http\Controllers\FornecedorController::class , 'editar'])->name('app.fornecedor.editar');
+    Route::get('/fornecedor/excluir{id}', [\App\Http\Controllers\FornecedorController::class , 'excluir'])->name('app.fornecedor.excluir');
 
-    Route::get('/produtos', [\App\Http\Controllers\ProdutoController::class , 'index'])->name('app.produto');
+    Route::resource('produto', ProdutoController::class);
 });
 
 // redirect
