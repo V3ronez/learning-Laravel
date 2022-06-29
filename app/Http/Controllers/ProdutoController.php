@@ -58,12 +58,17 @@ class ProdutoController extends Controller
             'peso' => 'required|integer',
             'unidade_id' => 'exists:unidades,id', //exists:<table>,<column>
         ];
-        $feedbacks = [];
+        $feedbacks = [
+            'required' => 'O campo :attribute deve ser preenchido',
+            'nome.min' => 'O campo Nome deve ter no mínimo 3 caracteres',
+            'nome.max' => 'O campo Nome deve ter no máximo 40 caracteres',
+            'descricao.min' => 'O campo Descrição deve ter no mínimo 5 caracteres',
+            'descricao.max' => 'O campo Descrição deve ter no máximo 2000 caracteres',
+            'peso.integer' => 'O campo Peso deve ser um inteiro',
+            'unidade_id.exists' => 'Selecione uma opção acima',
+        ];
 
-
-
-
-
+        $request->validate($regras, $feedbacks);
 
         // persistir sem validar
         Produto::create($request->all());
@@ -78,7 +83,7 @@ class ProdutoController extends Controller
      */
     public function show(Produto $produto)
     {
-    //
+        return view('app.produto.show', ['produto' => $produto]);
     }
 
     /**
@@ -89,7 +94,8 @@ class ProdutoController extends Controller
      */
     public function edit(Produto $produto)
     {
-    //
+        $unidades = Unidade::all();
+        return view('app.produto.edit', ['produto' => $produto, 'unidades' => $unidades]);
     }
 
     /**
@@ -101,7 +107,11 @@ class ProdutoController extends Controller
      */
     public function update(Request $request, Produto $produto)
     {
-    //
+        // print_r($request->all()); //novos valores a serem atualizado
+        // echo '<br><br><br><br>';
+        // print_r($produto); //instancia desatualizada do produto
+        $produto->update($request->all());
+        return redirect()->route('produto.index');
     }
 
     /**
@@ -112,6 +122,8 @@ class ProdutoController extends Controller
      */
     public function destroy(Produto $produto)
     {
-    //
+
+        $produto->delete();
+        return redirect()->route('produto.index');
     }
 }
