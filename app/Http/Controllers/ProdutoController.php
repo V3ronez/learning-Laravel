@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Produto;
 use App\Models\Unidade;
 use Illuminate\Http\Request;
+use App\Models\ProdutoDetalhe;
 
 class ProdutoController extends Controller
 {
@@ -16,6 +17,23 @@ class ProdutoController extends Controller
     public function index(Request $request)
     {
         $produtos = Produto::paginate(10);
+
+        // --- forma 'complicada' de fazer relacao 1 pra 1 de atributos de outras tabelas ---
+
+        // // dd($produtos);
+        // foreach ($produtos as $key => $produto) {
+        //     $produtoDetalhe = ProdutoDetalhe::where('produto_id', $produto->id)->first();
+        //     //sem first o return é uma -- Collection ProdutoDetalhe
+        //     //com first ja é a propria instancia -- ProdutoDetalhe
+
+        //     if (isset($produtoDetalhe)) {
+        //         // $produtos[$key/indice]['nome_para_representar_a_key']
+        //         $produtos[$key]['comprimento'] = $produtoDetalhe->comprimento;
+        //         $produtos[$key]['largura'] = $produtoDetalhe->largura;
+        //         $produtos[$key]['altura'] = $produtoDetalhe->altura;
+        //     }
+        // // dd($produtos);
+        // }
 
         return view('app.produto.index', ['produtos' => $produtos, 'request' => $request->all()]);
     }
@@ -96,6 +114,8 @@ class ProdutoController extends Controller
     {
         $unidades = Unidade::all();
         return view('app.produto.edit', ['produto' => $produto, 'unidades' => $unidades]);
+    // return view('app.produto.create', ['produto' => $produto, 'unidades' => $unidades]);
+
     }
 
     /**

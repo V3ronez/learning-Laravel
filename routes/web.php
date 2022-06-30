@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\LogAcessoMiddleware;
 use \App\Http\Controllers\ProdutoController;
+use App\Http\Controllers\ProdutoDetalhe;
+use App\Http\Controllers\ProdutoDetalheController;
 
 /* |-------------------------------------------------------------------------- | Web Routes |-------------------------------------------------------------------------- | | Here is where you can register web routes for your application. These | routes are loaded by the RouteServiceProvider within a group which | contains the "web" middleware group. Now create something great! | */
 
@@ -39,6 +41,8 @@ Route::middleware('autenticacao:padrao, visitante')->prefix('app')->group(functi
     Route::get('/fornecedor/excluir{id}', [\App\Http\Controllers\FornecedorController::class , 'excluir'])->name('app.fornecedor.excluir');
 
     Route::resource('produto', ProdutoController::class);
+    Route::resource('produto-detalhe', ProdutoDetalheController::class);
+
 });
 
 // redirect
