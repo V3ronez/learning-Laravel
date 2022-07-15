@@ -4,8 +4,18 @@
         @method('PUT')
     @else
         <form method="POST" action="{{ route('produto.store') }}">
+            @csrf
 @endif
-@csrf
+<select name="fornecedor_id">
+    <option>-- Selecione a fornecedor --</option>
+    @foreach ($fornecedores as $fornecedor)
+        <option
+            value="{{ $fornecedor->id }}"{{ ($produto->fornecedor_id ?? old('fornecedor_id')) == $fornecedor->id ? 'Selected' : '' }}>
+            {{ $fornecedor->nome }}
+        </option>
+    @endforeach
+</select>
+{{ $errors->has('fornecedor_id') ? $errors->first('fornecedor_id') : '' }}
 <input type="text" value="{{ $produto->nome ?? old('nome') }}" name="nome" placeholder="nome" class="borda-preta">
 {{ $errors->has('nome') ? $errors->first('nome') : '' }}
 <input type="text" value="{{ $produto->descricao ?? old('descricao') }}" name="descricao" placeholder="descrição"

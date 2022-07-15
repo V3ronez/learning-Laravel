@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Produto extends Model
 {
     use HasFactory;
-    protected $fillable = ['nome', 'peso', 'unidade_id', 'descricao'];
+    protected $fillable = ['nome', 'peso', 'unidade_id', 'descricao', 'fornecedor_id'];
 
     public function produtoDetalhe()
     {
@@ -17,6 +17,10 @@ class Produto extends Model
 
     //Produto tem 1 produtoDetalhe
     //1 registro esta relacionado em produto_detalhes atraves de produto_id (fk);
+    }
+    public function fornecedor()
+    {
+        return $this->belongsTo('App\Models\Fornecedor');
     }
 
 }

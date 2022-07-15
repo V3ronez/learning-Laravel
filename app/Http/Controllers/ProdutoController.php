@@ -6,6 +6,7 @@ use App\Models\Produto;
 use App\Models\Unidade;
 use Illuminate\Http\Request;
 use App\Models\ProdutoDetalhe;
+use App\Models\Fornecedor;
 
 class ProdutoController extends Controller
 {
@@ -16,8 +17,9 @@ class ProdutoController extends Controller
      */
     public function index(Request $request)
     {
-        $produtos = Produto::paginate(10);
-
+        //eager loading
+        $produtos = Produto::with(['produtoDetalhe', 'fornecedor'])->paginate(10);
+        // dd($produtos);
         // --- forma 'complicada' de fazer relacao 1 pra 1 de atributos de outras tabelas ---
 
         // // dd($produtos);
@@ -46,8 +48,9 @@ class ProdutoController extends Controller
     public function create()
     {
         $unidades = Unidade::all();
+        $fornecedores = Fornecedor::all();
         // dd($unidades);
-        return view('app.produto.create', ['unidades' => $unidades]);
+        return view('app.produto.create', ['unidades' => $unidades, 'fornecedores' => $fornecedores]);
     }
 
     /**
@@ -74,7 +77,8 @@ class ProdutoController extends Controller
             'nome' => 'required|min:3|max:40',
             'descricao' => 'required|min:5|max:2000',
             'peso' => 'required|integer',
-            'unidade_id' => 'exists:unidades,id', //exists:<table>,<column>
+            'unidade_id' => 'exists:unidades,id',
+            'fornecedor_id' => 'exists:fornecedores,id' //exists:<table>,<column>
         ];
         $feedbacks = [
             'required' => 'O campo :attribute deve ser preenchido',
@@ -84,6 +88,7 @@ class ProdutoController extends Controller
             'descricao.max' => 'O campo Descrição deve ter no máximo 2000 caracteres',
             'peso.integer' => 'O campo Peso deve ser um inteiro',
             'unidade_id.exists' => 'Selecione uma opção acima',
+            'fornecedor_id.exists' => 'Um fornecedor válido deve ser escolhido'
         ];
 
         $request->validate($regras, $feedbacks);
@@ -113,7 +118,8 @@ class ProdutoController extends Controller
     public function edit(Produto $produto)
     {
         $unidades = Unidade::all();
-        return view('app.produto.edit', ['produto' => $produto, 'unidades' => $unidades]);
+        $fornecedores = Fornecedor::all();
+        return view('app.produto.edit', ['produto' => $produto, 'unidades' => $unidades, 'fornecedores' => $fornecedores]);
     // return view('app.produto.create', ['produto' => $produto, 'unidades' => $unidades]);
 
     }
@@ -130,6 +136,26 @@ class ProdutoController extends Controller
         // print_r($request->all()); //novos valores a serem atualizado
         // echo '<br><br><br><br>';
         // print_r($produto); //instancia desatualizada do produto
+
+        $regras = [
+            'nome' => 'required|min:3|max:40',
+            'descricao' => 'required|min:5|max:2000',
+            'peso' => 'required|integer',
+            'unidade_id' => 'exists:unidades,id',
+            'fornecedor_id' => 'exists:fornecedores,id' //exists:<table>,<column>
+        ];
+        $feedbacks = [
+            'required' => 'O campo :attribute deve ser preenchido',
+            'nome.min' => 'O campo Nome deve ter no mínimo 3 caracteres',
+            'nome.max' => 'O campo Nome deve ter no máximo 40 caracteres',
+            'descricao.min' => 'O campo Descrição deve ter no mínimo 5 caracteres',
+            'descricao.max' => 'O campo Descrição deve ter no máximo 2000 caracteres',
+            'peso.integer' => 'O campo Peso deve ser um inteiro',
+            'unidade_id.exists' => 'Selecione uma opção acima',
+            'fornecedor_id.exists' => 'Um fornecedor válido deve ser escolhido'
+        ];
+
+        $request->validate($regras, $feedbacks);
         $produto->update($request->all());
         return redirect()->route('produto.index');
     }

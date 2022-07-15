@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Unidade;
-use App\Models\ProdutoDetalhe;
 
-class ProdutoDetalheController extends Controller
+class PedidoProdutoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +13,7 @@ class ProdutoDetalheController extends Controller
      */
     public function index()
     {
-    //
+        //
     }
 
     /**
@@ -25,8 +23,7 @@ class ProdutoDetalheController extends Controller
      */
     public function create()
     {
-        $unidades = Unidade::all();
-        return view('app.produto_detalhe.create', ['unidades' => $unidades]);
+        //
     }
 
     /**
@@ -37,9 +34,7 @@ class ProdutoDetalheController extends Controller
      */
     public function store(Request $request)
     {
-
-        ProdutoDetalhe::create($request->all());
-        echo 'cadastro realizado com sucesso!';
+        //
     }
 
     /**
@@ -50,32 +45,30 @@ class ProdutoDetalheController extends Controller
      */
     public function show($id)
     {
-    //
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  ProdutoDetalhe $produtoDetalhe
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(ProdutoDetalhe $produtoDetalhe)
+    public function edit($id)
     {
-        $unidades = Unidade::all();
-        return view('app.produto_detalhe.edit', ['unidades' => $unidades, 'produto_detalhe' => $produtoDetalhe]);
+        //
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  ProdutoDetalhe $produtoDetalhe
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ProdutoDetalhe $produtoDetalhe)
+    public function update(Request $request, $id)
     {
-        $produtoDetalhe->update($request->all());
-        echo 'produto atualizado';
+        //
     }
 
     /**
@@ -86,6 +79,6 @@ class ProdutoDetalheController extends Controller
      */
     public function destroy($id)
     {
-    //
+        //
     }
 }

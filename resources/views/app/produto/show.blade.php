@@ -22,12 +22,16 @@
                             <td>{{ $produto->nome }}</td>
                         </tr>
                         <tr>
+                            <td>fornecedor Nome:</td>
+                            <td>{{ $produto->fornecedor->nome }}</td>
+                        </tr>
+                        <tr>
                             <td>Descrição:</td>
                             <td>{{ $produto->descricao }}</td>
                         </tr>
                         <tr>
                             <td>Peso:</td>
-                            <td>{{ $produto->peso }}</td>
+                            <td>{{ $produto->peso }} kg</td>
                         </tr>
                         <tr>
                             <td>Unidade:</td>
