@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Fornecedor;
 use App\Models\Produto;
 use App\Models\Unidade;
 use Illuminate\Http\Request;
-use App\Models\ProdutoDetalhe;
-use App\Models\Fornecedor;
 
 class ProdutoController extends Controller
 {
@@ -19,7 +18,7 @@ class ProdutoController extends Controller
     {
         //eager loading
         $produtos = Produto::with(['produtoDetalhe', 'fornecedor'])->paginate(10);
-        // dd($produtos);
+
         // --- forma 'complicada' de fazer relacao 1 pra 1 de atributos de outras tabelas ---
 
         // // dd($produtos);
@@ -78,7 +77,7 @@ class ProdutoController extends Controller
             'descricao' => 'required|min:5|max:2000',
             'peso' => 'required|integer',
             'unidade_id' => 'exists:unidades,id',
-            'fornecedor_id' => 'exists:fornecedores,id' //exists:<table>,<column>
+            'fornecedor_id' => 'exists:fornecedores,id', //exists:<table>,<column>
         ];
         $feedbacks = [
             'required' => 'O campo :attribute deve ser preenchido',
@@ -88,7 +87,7 @@ class ProdutoController extends Controller
             'descricao.max' => 'O campo Descrição deve ter no máximo 2000 caracteres',
             'peso.integer' => 'O campo Peso deve ser um inteiro',
             'unidade_id.exists' => 'Selecione uma opção acima',
-            'fornecedor_id.exists' => 'Um fornecedor válido deve ser escolhido'
+            'fornecedor_id.exists' => 'Um fornecedor válido deve ser escolhido',
         ];
 
         $request->validate($regras, $feedbacks);
@@ -120,7 +119,7 @@ class ProdutoController extends Controller
         $unidades = Unidade::all();
         $fornecedores = Fornecedor::all();
         return view('app.produto.edit', ['produto' => $produto, 'unidades' => $unidades, 'fornecedores' => $fornecedores]);
-    // return view('app.produto.create', ['produto' => $produto, 'unidades' => $unidades]);
+        // return view('app.produto.create', ['produto' => $produto, 'unidades' => $unidades]);
 
     }
 
@@ -142,7 +141,7 @@ class ProdutoController extends Controller
             'descricao' => 'required|min:5|max:2000',
             'peso' => 'required|integer',
             'unidade_id' => 'exists:unidades,id',
-            'fornecedor_id' => 'exists:fornecedores,id' //exists:<table>,<column>
+            'fornecedor_id' => 'exists:fornecedores,id', //exists:<table>,<column>
         ];
         $feedbacks = [
             'required' => 'O campo :attribute deve ser preenchido',
@@ -152,7 +151,7 @@ class ProdutoController extends Controller
             'descricao.max' => 'O campo Descrição deve ter no máximo 2000 caracteres',
             'peso.integer' => 'O campo Peso deve ser um inteiro',
             'unidade_id.exists' => 'Selecione uma opção acima',
-            'fornecedor_id.exists' => 'Um fornecedor válido deve ser escolhido'
+            'fornecedor_id.exists' => 'Um fornecedor válido deve ser escolhido',
         ];
 
         $request->validate($regras, $feedbacks);

@@ -15,7 +15,7 @@ class ClienteController extends Controller
     public function index(Request $request)
     {
         $clientes = Cliente::paginate(10);
-        return view('app.cliente.index', ['clientes'=> $clientes, 'request' => $request->all()]);
+        return view('app.cliente.index', ['clientes' => $clientes, 'request' => $request->all()]);
 
     }
 
@@ -26,7 +26,7 @@ class ClienteController extends Controller
      */
     public function create()
     {
-    //
+        return view('app.cliente.create');
     }
 
     /**
@@ -37,51 +37,64 @@ class ClienteController extends Controller
      */
     public function store(Request $request)
     {
-    //
+        //request -> tudo que vem do front como post ou PUT para ser tratado
+        $regras = ['nome' => 'required|min:3|max:25'];
+        $feedback = [
+            'required' => 'O campo deve ser preenchido',
+            'nome.min' => 'O campo :attribute deve ter pelo menos 3 caracteres',
+            'nome.max' => 'O campo :attribute deve ter no máximo 50 caracteres',
+        ];
+
+        $request->validate($regras, $feedback);
+        $cliente = new Cliente();
+        $cliente->nome = $request->get('nome');
+        $cliente->save();
+
+        return redirect()->route('cliente.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+/**
+ * Display the specified resource.
+ *
+ * @param  int  $id
+ * @return \Illuminate\Http\Response
+ */
     public function show($id)
     {
-    //
+        //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+/**
+ * Show the form for editing the specified resource.
+ *
+ * @param  int  $id
+ * @return \Illuminate\Http\Response
+ */
     public function edit($id)
     {
-    //
+        //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+/**
+ * Update the specified resource in storage.
+ *
+ * @param  \Illuminate\Http\Request  $request
+ * @param  int  $id
+ * @return \Illuminate\Http\Response
+ */
     public function update(Request $request, $id)
     {
-    //
+        //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+/**
+ * Remove the specified resource from storage.
+ *
+ * @param  int  $id
+ * @return \Illuminate\Http\Response
+ */
     public function destroy($id)
     {
-    //
+        //
     }
 }

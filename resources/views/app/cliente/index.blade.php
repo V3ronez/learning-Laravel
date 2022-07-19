@@ -1,11 +1,11 @@
 @extends('app.layout.base')
-@section('titulo', 'Cliente')
+@section('titulo', 'Clientes')
 
 @section('conteudo')
 
     <div class="conteudo-pagina">
         <div class="titulo-pagina-2">
-            <p>Listagem de cliente</p>
+            <p>Listagem de clientes</p>
         </div>
         <div class="menu">
             <li><a href="{{ route('cliente.create') }}">Novo</a></li>

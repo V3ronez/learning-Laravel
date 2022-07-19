@@ -13,14 +13,18 @@ class Produto extends Model
     public function produtoDetalhe()
     {
 
-        return $this->hasOne('App\Models\ProdutoDetalhe');
+        return $this->hasOne('\App\Models\ProdutoDetalhe');
 
-    //Produto tem 1 produtoDetalhe
-    //1 registro esta relacionado em produto_detalhes atraves de produto_id (fk);
+        //Produto tem 1 produtoDetalhe
+        //1 registro esta relacionado em produto_detalhes atraves de produto_id (fk);
     }
     public function fornecedor()
     {
-        return $this->belongsTo('App\Models\Fornecedor');
+        return $this->belongsTo('\App\Models\Fornecedor');
+    }
+    public function pedidos()
+    {
+        return $this->belongsToMany('\App\Models\Pedido', 'pedidos_produtos');
     }
 
 }

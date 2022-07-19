@@ -34,6 +34,7 @@
     @endforeach
 </select>
 {{ $errors->has('unidade_id') ? $errors->first('unidade_id') : '' }}
+
 @if (isset($produto->id))
     <button type="submit" class="borda-preta">Atualizar</button>
 @else

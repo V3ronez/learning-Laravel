@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Pedido;
+use App\Models\PedidoProduto;
+use App\Models\Produto;
 use Illuminate\Http\Request;
 
 class PedidoProdutoController extends Controller
@@ -21,9 +24,16 @@ class PedidoProdutoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Pedido $pedido)
     {
-        //
+        $produtos = Produto::all();
+
+        $pedido->produtos; //return collection;
+        //eager loading ^ (quando o obj já está instanciado. ele ganha a property #relations: array:1 com produtos)
+
+        // $pedidoProdutoEagerLoading = $pedido->produtos;
+
+        return view('app.pedido_produto.create', ['pedido' => $pedido, 'produtos' => $produtos]);
     }
 
     /**
@@ -32,9 +42,35 @@ class PedidoProdutoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Pedido $pedido)
     {
-        //
+
+        $regras = [
+            'produto_id' => 'exists:produtos,id',
+            'quantidade' => 'required',
+        ];
+        $feedback = [
+            'required' => 'Uma campo :attribute deve ser preenchido',
+            'produto_id.exists' => 'Selecione um produto',
+        ];
+        $request->validate($regras, $feedback);
+
+        // $pedidoProduto = new PedidoProduto();
+        // $pedidoProduto->produto_id = $request->get('produto_id');
+        // $pedidoProduto->pedido_id = $pedido->id;
+        // $pedidoProduto->save();
+
+        $pedido->produtos()->attach($request->get('produto_id'), ['quantidade' => $request->get('quantidade')]);
+        //$pedido_id ja está instanciado em $pedido->id;
+
+        //em caso de adicionar varios produtos e cadastrar de uma unica vez;
+        // $pedido->produtos()->attach([
+        //     $request->get('produto_id') => ['quantidade' => $request->get('quantidade')],
+        //     $request->get('produto_id') => ['quantidade' => $request->get('quantidade')],
+        //     $request->get('produto_id') => ['quantidade' => $request->get('quantidade')],
+        // ]);
+
+        return redirect()->route('pedido-produto.create', ['pedido' => $pedido->id]);
     }
 
     /**
@@ -74,11 +110,27 @@ class PedidoProdutoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param id PedidoProduto $pedidoProduto
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    // public function destroy(Pedido $pedido, Produto $produto)
+    public function destroy( PedidoProduto $pedidoProduto, $pedido_id)
     {
-        //
+        // print_r($pedido->getAttributes());
+        // echo '<hr>';
+        // print_r($produto->getAttributes());
+
+        // convencional
+        // PedidoProduto::where([
+        //     'pedido_id' => $pedido->id,
+        //     'produto_id' => $produto->id,
+        // ])->delete();
+
+        //detach (delete pelo relacionamento)
+        // $pedido->produtos()->detach($produto->id);
+        $pedidoProduto->delete();
+        return redirect()->route('pedido-produto.create', ['pedido' => $pedido_id]);
+        // $pedido_id já está presente na instancia $pedido
+        // poderia ser feito também o delete pelo $produto->pedidos()->detach($pedido->id);
     }
 }
